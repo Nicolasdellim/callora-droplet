@@ -10,4 +10,4 @@ Before submission, obtain the actual creator's GitLab identity and approved crea
 
 The Store's developer terms are at https://getdroppy.app/droplet-developer-terms. Once the owner accepts those terms and authorizes submission, use the official `droppykit submit --print` to review the GitLab publication plan, then the normal fork/merge-request flow. A successful local `--no-submission` validation says nothing about Store acceptance.
 
-Signing and notarization are handled by Store publication after review. Local bundles are unsigned development builds and require host approval in Droppy. No certificate, signature or published release has been fabricated.
+Signing and notarization are handled by Store publication after review. Local bundles are development builds without a distribution signature and require host approval in Droppy. No certificate, signature or published release has been fabricated.

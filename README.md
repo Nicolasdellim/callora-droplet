@@ -38,7 +38,7 @@ macOS 14+, Swift 6.2+, and a Droppy host embedding **DroppyKit API 1.22.0 or new
 | Discord, WhatsApp, Telegram, Slack, Webex, Signal | Manual association | Explicit window capture | Open original app |
 | Other applications | Manual association | Explicit window capture | Open original app |
 
-Incoming calls, caller identity, remote video streams, microphone/camera state, answer, decline and hang-up are **not advertised as supported**. Callora never substitutes your webcam for a participant. Full [feasibility and capability matrix](docs/FEASIBILITY.md).
+Incoming calls, caller identity, remote video streams, microphone/camera state, answer, decline and hang-up are **not advertised as supported**. The timer measures time since detection or manual association; it may differ from the actual call duration. Callora never substitutes your webcam for a participant. Full [feasibility and capability matrix](docs/FEASIBILITY.md).
 
 ## Install a local development build
 
@@ -72,6 +72,10 @@ The opt-in capture integration test creates **its own labeled local source windo
 ```sh
 CALLORA_CAPTURE_TEST=1 swift test
 ```
+
+![Actual floating panel capturing the generated local test window](docs/floating-capture-test.png)
+
+*Actual integration-test screenshot: Callora's native floating view displaying its generated local test source. No live call or remote participant is shown.*
 
 ## Privacy
 
