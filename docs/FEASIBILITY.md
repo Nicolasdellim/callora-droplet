@@ -48,3 +48,7 @@ Detection is evidence based, English semantic labels only; provider UI changes a
 - https://getdroppy.app/docs/droppykit/icons
 - https://developer.apple.com/documentation/screencapturekit
 - https://developer.apple.com/documentation/applicationservices/axuielement
+
+## 0.2.0 update
+
+A dedicated expanded surface now hosts calls inside Droppy itself, independent of shelf widget placement. Incoming/active semantic detection recognizes EN/FR button labels and scans the listed desktop providers experimentally; the older matrix above records the initial 0.1 implementation. No provider has been promoted to live-validated status. Automatic video association requires matching the detected AX window's process and geometry. The floating controller is invoked only by an explicit detach.

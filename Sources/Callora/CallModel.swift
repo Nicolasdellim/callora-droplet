@@ -49,17 +49,27 @@ public struct DetectionEvidence: Sendable, Equatable {
     public let provider: String
     public let windowID: String
     public let labels: Set<String>
-    public init(bundleID: String, processID: Int32, provider: String, windowID: String, labels: Set<String>) {
+    public let windowTitle: String?
+    public let windowBounds: CGRect?
+    public init(bundleID: String, processID: Int32, provider: String, windowID: String, labels: Set<String>, windowTitle: String? = nil, windowBounds: CGRect? = nil) {
         self.bundleID = bundleID; self.processID = processID; self.provider = provider
-        self.windowID = windowID; self.labels = labels
+        self.windowID = windowID; self.labels = labels; self.windowTitle = windowTitle; self.windowBounds = windowBounds
     }
-    public var confidence: Double {
-        let normalized = Set(labels.map { $0.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) })
-        let leave = !normalized.isDisjoint(with: ["leave", "leave meeting", "end meeting", "end call", "leave call", "hang up"])
-        let audio = normalized.contains { $0 == "mute" || $0 == "unmute" || $0.contains("microphone") || $0 == "mute audio" || $0 == "unmute audio" }
-        let video = normalized.contains { $0 == "stop video" || $0 == "start video" || $0.contains("camera") || $0 == "video" }
-        return leave && audio && video ? 0.95 : (leave && (audio || video) ? 0.65 : 0)
+    private var normalized: Set<String> {
+        Set(labels.map { $0.folding(options: [.diacriticInsensitive, .caseInsensitive], locale: Locale(identifier: "en_US_POSIX")).lowercased().trimmingCharacters(in: .whitespacesAndNewlines) })
     }
+    public var detectedPhase: CallPhase? {
+        let labels = normalized
+        let answers: Set<String> = ["answer", "answer call", "accept call", "repondre", "accepter l'appel", "accepter l'appel video"]
+        let declines: Set<String> = ["decline", "decline call", "refuser", "refuser l'appel", "rejeter l'appel"]
+        if !labels.isDisjoint(with: answers), !labels.isDisjoint(with: declines) { return .incoming }
+        let leave = !labels.isDisjoint(with: ["leave", "leave meeting", "end meeting", "end call", "leave call", "hang up", "disconnect", "quitter", "quitter l'appel", "quitter la reunion", "terminer l'appel", "mettre fin a l'appel", "raccrocher", "deconnecter", "se deconnecter"])
+        let audio = labels.contains { $0.contains("microphone") || $0.contains("micro") || ["mute", "unmute", "mute audio", "unmute audio", "couper le son", "reactiver le son", "activer le son"].contains($0) }
+        let video = labels.contains { $0.contains("camera") || $0.contains("video") }
+        return leave && audio && video ? .active : nil
+    }
+    public var confidence: Double { detectedPhase == nil ? 0 : 0.95 }
+
 }
 
 /// Requires two positive samples; three missing samples end an automatically detected call.
@@ -101,8 +111,9 @@ public struct NormalizedCrop: Codable, Equatable, Sendable {
 
 public struct CalloraSettings: Codable, Equatable, Sendable {
     public var enabled = true
-    public var detectionEnabled = false
-    public var persistentActivity = false
+    public var detectionEnabled = true
+    public var persistentActivity = true
+    public var automaticallyPresentCalls = true
     public var showDuration = true
     public var alwaysOnTop = true
     public var rememberPosition = true
@@ -113,6 +124,24 @@ public struct CalloraSettings: Codable, Equatable, Sendable {
     public var crop = NormalizedCrop()
     public var panelFrame: [Double]?
     public init() {}
+    private enum CodingKeys: String, CodingKey { case enabled, detectionEnabled, persistentActivity, automaticallyPresentCalls, showDuration, alwaysOnTop, rememberPosition, snapToEdges, opacity, frameRate, layout, crop, panelFrame }
+    public init(from decoder: Decoder) throws {
+        self.init()
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        enabled = try c.decodeIfPresent(Bool.self, forKey: .enabled) ?? enabled
+        detectionEnabled = try c.decodeIfPresent(Bool.self, forKey: .detectionEnabled) ?? detectionEnabled
+        persistentActivity = try c.decodeIfPresent(Bool.self, forKey: .persistentActivity) ?? persistentActivity
+        automaticallyPresentCalls = try c.decodeIfPresent(Bool.self, forKey: .automaticallyPresentCalls) ?? automaticallyPresentCalls
+        showDuration = try c.decodeIfPresent(Bool.self, forKey: .showDuration) ?? showDuration
+        alwaysOnTop = try c.decodeIfPresent(Bool.self, forKey: .alwaysOnTop) ?? alwaysOnTop
+        rememberPosition = try c.decodeIfPresent(Bool.self, forKey: .rememberPosition) ?? rememberPosition
+        snapToEdges = try c.decodeIfPresent(Bool.self, forKey: .snapToEdges) ?? snapToEdges
+        opacity = try c.decodeIfPresent(Double.self, forKey: .opacity) ?? opacity
+        frameRate = try c.decodeIfPresent(Int.self, forKey: .frameRate) ?? frameRate
+        layout = try c.decodeIfPresent(PanelLayout.self, forKey: .layout) ?? layout
+        crop = try c.decodeIfPresent(NormalizedCrop.self, forKey: .crop) ?? crop
+        panelFrame = try c.decodeIfPresent([Double].self, forKey: .panelFrame)
+    }
 }
 
 public enum PanelLayout: String, Codable, CaseIterable, Sendable {

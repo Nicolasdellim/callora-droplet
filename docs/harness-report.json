@@ -5,25 +5,43 @@
   },
   "activity" : [
     {
-      "at" : "2026-11-05T19:10:25Z",
+      "at" : "2026-11-05T19:25:41Z",
+      "detail" : "set droplet.callora.settings",
+      "refused" : false,
+      "service" : "preferences"
+    },
+    {
+      "at" : "2026-11-05T19:25:41Z",
+      "detail" : "set droplet.callora.notchFirst.v2",
+      "refused" : false,
+      "service" : "preferences"
+    },
+    {
+      "at" : "2026-11-05T19:25:41Z",
+      "detail" : "register \"open-notch\"",
+      "refused" : false,
+      "service" : "shortcuts"
+    },
+    {
+      "at" : "2026-11-05T19:25:41Z",
       "detail" : "register \"detach-dock\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:10:25Z",
+      "at" : "2026-11-05T19:25:41Z",
       "detail" : "register \"toggle-preview\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:10:25Z",
+      "at" : "2026-11-05T19:25:41Z",
       "detail" : "register \"open-source\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:10:25Z",
+      "at" : "2026-11-05T19:25:41Z",
       "detail" : "register \"switch-call\"",
       "refused" : false,
       "service" : "shortcuts"
@@ -39,10 +57,12 @@
       "shelf-write",
       "global-shortcuts",
       "accessibility",
-      "screen-capture"
+      "screen-capture",
+      "expanded-surface"
     ],
     "granted" : [
       "accessibility",
+      "expanded-surface",
       "global-shortcuts",
       "screen-capture",
       "shelf-read",
@@ -55,7 +75,8 @@
       "shelf-write",
       "global-shortcuts",
       "accessibility",
-      "screen-capture"
+      "screen-capture",
+      "expanded-surface"
     ],
     "category" : "Productivity",
     "creator" : "Nicolasdellim",
@@ -71,13 +92,18 @@
     "surfaces" : [
       "shelf-widget",
       "live-activity",
-      "settings-pane"
+      "settings-pane",
+      "expanded-surface"
     ],
     "typeID" : "callora",
-    "version" : "0.1.1"
+    "version" : "0.2.0"
   },
   "expandedSurfaces" : [
-
+    {
+      "id" : "callora.call",
+      "systemImage" : "video.fill",
+      "title" : "Callora call"
+    }
   ],
   "harness" : {
     "abi" : 1,
@@ -92,7 +118,7 @@
   },
   "log" : [
     {
-      "at" : "2026-11-05T19:10:25Z",
+      "at" : "2026-11-05T19:25:41Z",
       "level" : "info",
       "message" : "Callora activated; no capture starts until a source is chosen and its preview is visible"
     }
@@ -143,10 +169,10 @@
       "verdict" : "provided"
     },
     {
-      "declared" : false,
-      "implemented" : false,
+      "declared" : true,
+      "implemented" : true,
       "surface" : "expanded-surface",
-      "verdict" : "not-provided"
+      "verdict" : "provided"
     },
     {
       "declared" : true,

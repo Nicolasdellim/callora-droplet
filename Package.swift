@@ -19,7 +19,7 @@ let package = Package(
             name: "Callora",
             dependencies: [.product(name: "DroppyKit", package: "droppykit")]
         ),
-        .testTarget(name: "CalloraTests", dependencies: ["Callora"]),
+        .testTarget(name: "CalloraTests", dependencies: ["Callora", .product(name: "DroppyKitHarness", package: "droppykit")]),
         .executableTarget(
             name: "CalloraHarness",
             dependencies: [

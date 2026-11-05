@@ -25,12 +25,12 @@ public enum ProviderRegistry {
         .init(id: "com.apple.Safari", name: "Browser calls in Safari", automatic: true),
         .init(id: "com.microsoft.edgemac", name: "Browser calls in Edge", automatic: true),
         .init(id: "com.brave.Browser", name: "Browser calls in Brave", automatic: true),
-        .init(id: "com.hnc.Discord", name: "Discord", automatic: false),
-        .init(id: "net.whatsapp.WhatsApp", name: "WhatsApp", automatic: false),
-        .init(id: "ru.keepcoder.Telegram", name: "Telegram", automatic: false),
-        .init(id: "com.tinyspeck.slackmacgap", name: "Slack Huddles", automatic: false),
-        .init(id: "Cisco-Systems.Spark", name: "Webex", automatic: false),
-        .init(id: "org.whispersystems.signal-desktop", name: "Signal", automatic: false)
+        .init(id: "com.hnc.Discord", name: "Discord", automatic: true),
+        .init(id: "net.whatsapp.WhatsApp", name: "WhatsApp", automatic: true),
+        .init(id: "ru.keepcoder.Telegram", name: "Telegram", automatic: true),
+        .init(id: "com.tinyspeck.slackmacgap", name: "Slack Huddles", automatic: true),
+        .init(id: "Cisco-Systems.Spark", name: "Webex", automatic: true),
+        .init(id: "org.whispersystems.signal-desktop", name: "Signal", automatic: true)
     ]
 }
 
@@ -55,7 +55,7 @@ public enum ProviderRegistry {
                 guard !Task.isCancelled else { return }
                 let result = self.reducer.update(evidence)
                 self.onUpdate?(result.confirmed, result.ended)
-                try? await Task.sleep(for: .seconds(4))
+                try? await Task.sleep(for: .seconds(2))
             }
         }
     }
@@ -77,7 +77,17 @@ public enum ProviderRegistry {
                         Self.collect(window, depth: 0, budget: &budget, labels: &labels, deadline: deadline)
                         // AXIdentifier is stable where supplied; ordinal fallback is explicitly best effort.
                         let key = Self.attribute(window, kAXIdentifierAttribute) as? String ?? "window-\(index)"
-                        result.append(.init(bundleID: target.id, processID: target.pid, provider: target.name, windowID: key, labels: labels))
+                        let title = Self.attribute(window, kAXTitleAttribute) as? String
+                        var bounds: CGRect?
+                        if let position = Self.attribute(window, kAXPositionAttribute), CFGetTypeID(position) == AXValueGetTypeID(),
+                           let size = Self.attribute(window, kAXSizeAttribute), CFGetTypeID(size) == AXValueGetTypeID() {
+                            var point = CGPoint.zero; var dimensions = CGSize.zero
+                            if AXValueGetValue(unsafeDowncast(position, to: AXValue.self), .cgPoint, &point),
+                               AXValueGetValue(unsafeDowncast(size, to: AXValue.self), .cgSize, &dimensions) {
+                                bounds = CGRect(origin: point, size: dimensions)
+                            }
+                        }
+                        result.append(.init(bundleID: target.id, processID: target.pid, provider: target.name, windowID: key, labels: labels, windowTitle: title, windowBounds: bounds))
                     }
                 }
                 continuation.resume(returning: result)

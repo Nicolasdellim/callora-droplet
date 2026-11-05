@@ -1,9 +1,9 @@
 {
   "id": "callora",
   "name": "Callora",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "summary": "Your call window, in the notch and anywhere on your Mac.",
-  "description": "Callora presents a user-selected call window in Droppy and in a native floating panel. Experimental opt-in call detection uses accessible call controls. Closing a preview never ends a call.",
+  "description": "Callora shows detected incoming and active calls in a dedicated Droppy notch surface. Video uses the matching authorized call window. Floating preview opens only on an explicit detach action. English and French Accessibility detection is experimental.",
   "category": "Productivity",
   "kit": {
     "abi": 1,
@@ -15,12 +15,14 @@
     "shelf-write",
     "global-shortcuts",
     "accessibility",
-    "screen-capture"
+    "screen-capture",
+    "expanded-surface"
   ],
   "surfaces": [
     "shelf-widget",
     "live-activity",
-    "settings-pane"
+    "settings-pane",
+    "expanded-surface"
   ],
   "icon": "Callora.icon",
   "creator": {

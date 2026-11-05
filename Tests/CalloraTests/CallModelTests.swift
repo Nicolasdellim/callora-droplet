@@ -73,8 +73,8 @@ import Foundation
 
 @Test func settingsRoundTripAndConservativeDefaults() throws {
     let settings = CalloraSettings()
-    #expect(!settings.detectionEnabled)
-    #expect(!settings.persistentActivity)
+    #expect(settings.detectionEnabled)
+    #expect(settings.persistentActivity)
     #expect(settings.frameRate == 15)
     #expect(try JSONDecoder().decode(CalloraSettings.self, from: JSONEncoder().encode(settings)) == settings)
 }

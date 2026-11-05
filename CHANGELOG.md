@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.2.0] - 2026-11-05
+
+- Made the dedicated Droppy expanded notch surface the primary call presentation.
+- Opened detected incoming/active calls and manually selected video sources in the notch.
+- Kept floating panels exclusive to explicit detach actions; dock returns to the actual notch surface.
+- Added French incoming/active-call labels and experimental semantic scans for listed calling apps.
+- Matched automatic capture to the detected AX window geometry instead of choosing an arbitrary app window.
+- Preserved existing preferences while migrating the requested automatic notch workflow.
+- Added host-backed regression tests and real capture in the notch without a shelf widget or panel.
+
 ## [0.1.1] - 2026-11-05
 
 - Replaced API 1.22-only header layout and button sizing helpers with an API 1.21-compatible shelf presentation.

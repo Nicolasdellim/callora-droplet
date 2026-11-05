@@ -179,3 +179,58 @@ struct CompactCallDuration: View {
         }.font(.system(size: 11, weight: .medium)).foregroundStyle(AdaptiveColors.notchSurfacePrimaryText)
     }
 }
+
+/// This content is mounted by Droppy in its own notch window, never an NSPanel.
+struct CallNotchView: View {
+    @ObservedObject var droplet: CalloraDroplet
+    var body: some View {
+        VStack(spacing: DroppySpacing.md) {
+            HStack(spacing: DroppySpacing.sm) {
+                Image(systemName: droplet.selected?.phase == .incoming ? "phone.arrow.down.left.fill" : "video.fill")
+                VStack(alignment: .leading, spacing: DroppySpacing.xs) {
+                    Text(droplet.selected == nil ? "Callora" : droplet.selected?.phase == .incoming ? "Appel entrant" : "Appel en cours")
+                        .font(.system(size: 13, weight: .semibold))
+                    Text(droplet.selected?.provider ?? "Prêt pour un appel").font(.caption)
+                        .foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
+                }
+                Spacer(minLength: 0)
+                if let start = droplet.selected?.startedAt, droplet.settings.showDuration {
+                    Text(start, style: .timer).font(.caption).monospacedDigit()
+                }
+                notchButton("Réduire dans la notch", symbol: "chevron.up", action: droplet.hidePreview)
+            }
+            if droplet.selected == nil {
+                Text("Les appels détectés s’affichent ici, dans la notch. Activez l’accessibilité dans les réglages si nécessaire.")
+                    .font(.system(size: 12)).multilineTextAlignment(.center)
+                    .foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if droplet.selected?.phase == .incoming {
+                Text("Ouvrez l’application pour répondre à cet appel.")
+                    .font(.system(size: 12)).foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                PreviewContent(droplet: droplet)
+                    .clipShape(RoundedRectangle(cornerRadius: DroppyRadius.medium, style: .continuous))
+                    .background(ScreenRectReader { droplet.previewRect = $0 })
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
+            HStack {
+                Button(action: droplet.openSource) { Label("Ouvrir l’application", systemImage: "arrow.up.forward.app") }
+                    .buttonStyle(DroppyWashPillButtonStyle(height: 34, tone: .neutral))
+                    .disabled(droplet.selected == nil)
+                Spacer(minLength: 0)
+                notchButton("Choisir la source vidéo", symbol: "gearshape", action: droplet.openSettings)
+                notchButton("Détacher en fenêtre flottante", symbol: "pip.enter") { droplet.detach() }
+                    .disabled(droplet.selected == nil)
+            }
+        }
+        .foregroundStyle(AdaptiveColors.notchSurfacePrimaryText)
+        .padding(DroppySpacing.md)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+    private func notchButton(_ label: String, symbol: String, action: @escaping () -> Void) -> some View {
+        Button(action: action) { Image(systemName: symbol) }
+            .buttonStyle(DroppyWashCircleButtonStyle(diameter: 34, tone: .neutral))
+            .help(label).accessibilityLabel(label)
+    }
+}

@@ -4,18 +4,26 @@
 
 **Every call. One beautiful island.**
 
-Callora brings a selected application window into Droppy's notch and a native floating preview. Keep the call in its original app, move its picture beside your work, then dock it back.
+Callora opens detected calls directly inside Droppy's notch. A floating preview is available only after you explicitly detach it. Keep the call in its original app, move its picture beside your work, then dock it back.
 
-**Development build, version 0.1.1.** Window capture and native panel mechanics have been tested on macOS 26. A real calling application's complete lifecycle has not yet been validated. This is not a verified public release or a claim of universal calling support. See [verification](docs/VERIFICATION.md) and [remaining work](docs/ROADMAP.md).
+**Development build, version 0.2.0.** Window capture and native panel mechanics have been tested on macOS 26. A real calling application's complete lifecycle has not yet been validated. This is not a verified public release or a claim of universal calling support. See [verification](docs/VERIFICATION.md) and [remaining work](docs/ROADMAP.md).
 
 ![Actual SDK harness, idle shelf](docs/screenshots/shelf-widget.png)
 
 *Real SwiftUI surfaces rendered by DroppyKit's harness, showing the unconfigured state. These are not screenshots of an active call.*
 
+## Notch-first behavior (0.2.0)
+
+Recognized incoming and active calls open the `callora.call` expanded surface in Droppy’s own notch window. Selecting a window manually also opens this surface. The floating NSPanel is created only by **Detach** or its explicit shortcut. **Dock** restores the expanded notch surface, and reducing it keeps the compact activity. The one-time migration enables automatic detection, automatic notch presentation and compact participation for the workflow explicitly requested by the owner; existing crop, opacity and panel geometry preferences are preserved. Accessibility is needed for automatic detection, and Screen Recording is needed for video. No permission is bypassed or silently granted.
+
+Automatic source association requires the same process and matching AX/ScreenCaptureKit window geometry. An ambiguous source stays status-only until the user selects it. No arbitrary window from the calling app is captured as a fallback.
+
+![Actual notch surface, idle harness state](docs/screenshots/expanded-surface.png)
+
 ## What works
 
 - A real `.droplet` dynamic bundle linked against Droppy's resilient SDK framework.
-- Compact Live Activity and a shelf widget on notch, island and camera-island layouts.
+- A dedicated expanded call surface inside Droppy’s notch, with a compact Live Activity and shelf entry.
 - Explicit selection of an application window using ScreenCaptureKit, without audio capture.
 - Normalized crop controls and 10, 15 or 30 fps preview settings; resize tracking while capture is visible.
 - A movable, resizable, nonactivating native `NSPanel`, with aspect constraint, opacity, always-on-top, saved position and edge snapping.
@@ -23,7 +31,7 @@ Callora brings a selected application window into Droppy's notch and a native fl
 - Five presentation layouts: minimal, glass, controls, compact and audio only.
 - Preview visibility and call lifecycle are separate. Closing or hiding the panel does not hang up.
 - Capture pauses when no preview is visible and stops on source loss, app exit, sleep or deactivation.
-- Optional experimental detection from accessible call controls. App launch, window title and microphone use never confirm a call.
+- Experimental detection from accessible incoming/active call controls in French and English, enabled for the requested automatic notch workflow. App launch, window title and microphone use never confirm a call.
 
 ## Compatibility
 
@@ -33,12 +41,12 @@ macOS 14+, Swift 6.2+, and a Droppy host embedding **DroppyKit API 1.21.0 or new
 
 | Provider | Automatic detection | Video | Call controls |
 |---|---|---|---|
-| Zoom, FaceTime, Teams | Experimental English AX heuristics, off by default | Explicit window capture | Open original app |
+| Zoom, FaceTime, Teams | Experimental EN/FR AX heuristics | Explicit window capture | Open original app |
 | Meet / other calls in Chrome, Safari, Edge, Brave | Experimental accessible call controls in visible browser content; no tab identity guarantee | Explicit browser-window capture | Open original app |
-| Discord, WhatsApp, Telegram, Slack, Webex, Signal | Manual association | Explicit window capture | Open original app |
-| Other applications | Manual association | Explicit window capture | Open original app |
+| Discord, WhatsApp, Telegram, Slack, Webex, Signal | Experimental EN/FR AX heuristics or manual association | Matched call-window capture or explicit selection | Open original app |
+| Other applications | Experimental EN/FR AX heuristics or manual association | Matched call-window capture or explicit selection | Open original app |
 
-Incoming calls, caller identity, remote video streams, microphone/camera state, answer, decline and hang-up are **not advertised as supported**. The timer measures time since detection or manual association; it may differ from the actual call duration. Callora never substitutes your webcam for a participant. Full [feasibility and capability matrix](docs/FEASIBILITY.md).
+Incoming-call display is experimental and requires accessible answer/decline controls. Caller identity, direct remote streams, microphone/camera state and answer/decline/hang-up actions are **not advertised as supported**. The timer measures time since detection or manual association; it may differ from the actual call duration. Callora never substitutes your webcam for a participant. Full [feasibility and capability matrix](docs/FEASIBILITY.md).
 
 ## Install a local development build
 
@@ -94,7 +102,7 @@ All host calls are capability gated. All observers, scans, shortcuts, panels and
 - **API too new:** update the host to one with SDK 1.21.0+. The current stable Playground 1.0.29 is too old.
 - **No source windows:** allow Screen Recording for the actual host, relaunch it if macOS requests that, reopen a source window, refresh permissions and sources.
 - **Blank/frozen preview:** protected, minimized, hidden and inactive-tab content can be unavailable. Restore the source, then select it again. No protected-content bypass exists.
-- **A call is not detected:** use manual window selection. English UI controls may not be exposed or may have changed. Detection is experimental and off by default.
+- **A call is not detected:** use manual window selection. French or English controls may not be exposed or may have changed. Detection remains experimental.
 - **No mute or hang-up buttons:** those integrations are not verified; use **Open calling application**.
 - **No compact activity:** another host activity may own the seat. Persistent participation is optional in settings.
 - **Window geometry changed:** the service refreshes source geometry every four seconds while visible. Re-select after replacing the call window.

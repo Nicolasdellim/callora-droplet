@@ -33,3 +33,9 @@ The universal 0.1.1 build and development validation pass. Seven local unit/nati
 Installed in the user's Droppy 16.2.1-nightly.20261101, embedding SDK API 1.21.0. After installation and restart, the host reports `installed: true`, `enabled: true`, `running: true`, `version: 0.1.1`; the loader log confirms `Droplet callora 0.1.1 activated`. The normal SDK installer quarantine cleanup was applied to this locally built bundle. No host signature, security policy, or consent preference was modified.
 
 Real calling-app lifecycle and physical display/Space/accessibility scenarios remain unverified. The stable Playground 1.0.29 still embeds 1.20.1 and remains too old.
+
+## Notch-first correction — 0.2.0
+
+The original regression was reproduced by two host-backed tests: a detected call and a dock-back action left `notchSurface.expandedState.current` nil. Both now present `callora.call`, using ExpandedSurfaceHosting/Providing and the manifest's expanded-surface capability. Incoming/accepted/ended French evidence, preference migration compatibility and explicit-only floating behavior are tested. A real capture integration test selects a generated local window, receives frames while the host's dedicated notch surface is presented with no shelf widget and no NSPanel, then hides the preview and confirms capture stops while the source window remains open. The local suite passes all 13 tests with capture tests enabled.
+
+All declared surfaces render in the official harness without problems. New screenshots show real rendered SwiftUI, in an idle harness state; no live provider call or incoming call was staged in Droppy. Detection is still experimental: localized controls, provider UI changes, hidden tabs and macOS notification-only incoming calls can remain inaccessible. Only the new call surface and default presentation path are asserted as fixed; universal detection is not claimed.

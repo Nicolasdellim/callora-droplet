@@ -11,8 +11,13 @@ struct CalloraSettingsView: View {
             DropletSettingsSection { settingsSectionHeader("General") } content: {
                 DropletSettingsCard {
                     DropletToggleRow(title: "Enable Callora", isOn: binding(\.enabled))
-                    DropletToggleRow(title: "Experimental call detection", subtitle: "Uses accessible call controls; English interfaces only.", isOn: binding(\.detectionEnabled))
+                    DropletToggleRow(title: "Experimental call detection", subtitle: "Reconnaît les commandes d’appel en français et en anglais.", isOn: binding(\.detectionEnabled))
                     DropletToggleRow(title: "Keep activity beside other activities", isOn: binding(\.persistentActivity))
+                    DropletToggleRow(title: "Ouvrir les appels dans la notch", subtitle: "La fenêtre flottante s’ouvre uniquement avec Détacher.", isOn: binding(\.automaticallyPresentCalls))
+                    DropletControlRow(title: "Afficher l’appel dans la notch") {
+                        Button("Ouvrir dans la notch", action: droplet.showPreview)
+                            .disabled(droplet.selected == nil).buttonStyle(.bordered)
+                    }
                     DropletToggleRow(title: "Show duration", isOn: binding(\.showDuration))
                 }
             }
