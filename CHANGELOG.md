@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.1] - 2026-11-05
+
+- Replaced API 1.22-only header layout and button sizing helpers with an API 1.21-compatible shelf presentation.
+- Kept the header beneath the host's camera clearance so the build can load in Droppy hosts embedding SDK 1.21.
+
 ## [0.1.0] - 2026-11-05
 
 Unreleased development build.

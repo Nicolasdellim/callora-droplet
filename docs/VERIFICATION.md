@@ -23,3 +23,13 @@ Observed loader refusal: `apiTooNew(bundleMinimum: 1.22.0, host: 1.20.1)`. The s
 `floating-capture-test.png` is an actual window screenshot from the real capture integration test, showing its generated local test source inside Callora's real floating view. It contains no call or remote participant. `screenshots/` contains actual SDK harness renders in the idle/unconfigured state. Neither kind of image proves integration with a live calling application.
 
 No public release tag was created. The complete product Definition of Done remains open; see ROADMAP.md. The linked GitHub run independently validates the code; the real capture test was run locally with an existing Screen Recording grant.
+
+## Installation follow-up — 5 November 2026
+
+Callora 0.1.1 replaces the API 1.22-only notch-wrap row and contextual wash sizing with the API 1.21 shelf presentation. It still builds against SDK 1.22, but the official binary API ledger now verifies that every imported symbol is available in **1.21.0**. This is a source adaptation, not a lowered handshake around incompatible code. The header stays below the host's camera clearance.
+
+The universal 0.1.1 build and development validation pass. Seven local unit/native-panel tests pass; the opt-in capture integration test was skipped in this compatibility-only run. The unchanged capture implementation had passed its real-window test in 0.1.0. All eleven updated harness renders completed with no report problems.
+
+Installed in the user's Droppy 16.2.1-nightly.20261101, embedding SDK API 1.21.0. After installation and restart, the host reports `installed: true`, `enabled: true`, `running: true`, `version: 0.1.1`; the loader log confirms `Droplet callora 0.1.1 activated`. The normal SDK installer quarantine cleanup was applied to this locally built bundle. No host signature, security policy, or consent preference was modified.
+
+Real calling-app lifecycle and physical display/Space/accessibility scenarios remain unverified. The stable Playground 1.0.29 still embeds 1.20.1 and remains too old.

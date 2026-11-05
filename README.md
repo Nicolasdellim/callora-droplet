@@ -6,7 +6,7 @@
 
 Callora brings a selected application window into Droppy's notch and a native floating preview. Keep the call in its original app, move its picture beside your work, then dock it back.
 
-**Development build, version 0.1.0.** Window capture and native panel mechanics have been tested on macOS 26. A real calling application's complete lifecycle has not yet been validated. This is not a verified public release or a claim of universal calling support. See [verification](docs/VERIFICATION.md) and [remaining work](docs/ROADMAP.md).
+**Development build, version 0.1.1.** Window capture and native panel mechanics have been tested on macOS 26. A real calling application's complete lifecycle has not yet been validated. This is not a verified public release or a claim of universal calling support. See [verification](docs/VERIFICATION.md) and [remaining work](docs/ROADMAP.md).
 
 ![Actual SDK harness, idle shelf](docs/screenshots/shelf-widget.png)
 
@@ -27,9 +27,9 @@ Callora brings a selected application window into Droppy's notch and a native fl
 
 ## Compatibility
 
-macOS 14+, Swift 6.2+, and a Droppy host embedding **DroppyKit API 1.22.0 or newer**. The manifest's base host requirement is Droppy 15.3.0, but this does not override the SDK API handshake.
+macOS 14+, Swift 6.2+, and a Droppy host embedding **DroppyKit API 1.21.0 or newer**. The manifest's base host requirement is Droppy 15.3.0, but this does not override the SDK API handshake.
 
-**The current stable Playground download (1.0.29) embeds SDK 1.20.1 and refuses this bundle.** This was observed in its loader log on 5 November 2026. Use a newer compatible Playground/host when available. Do not lower `kit.minAPI`: the binary uses 1.22.0 symbols.
+**The current stable Playground download (1.0.29) embeds SDK 1.20.1 and cannot load this bundle.** This was observed in its loader log on 5 November 2026. Use a newer compatible Playground/host when available. Callora 0.1.1 uses the API 1.21 shelf presentation and does not import 1.22-only layout helpers.
 
 | Provider | Automatic detection | Video | Call controls |
 |---|---|---|---|
@@ -91,7 +91,7 @@ All host calls are capability gated. All observers, scans, shortcuts, panels and
 
 ## Troubleshooting
 
-- **API too new:** update the host to one with SDK 1.22.0+. The current stable Playground 1.0.29 is too old.
+- **API too new:** update the host to one with SDK 1.21.0+. The current stable Playground 1.0.29 is too old.
 - **No source windows:** allow Screen Recording for the actual host, relaunch it if macOS requests that, reopen a source window, refresh permissions and sources.
 - **Blank/frozen preview:** protected, minimized, hidden and inactive-tab content can be unavailable. Restore the source, then select it again. No protected-content bypass exists.
 - **A call is not detected:** use manual window selection. English UI controls may not be exposed or may have changed. Detection is experimental and off by default.

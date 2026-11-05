@@ -2,7 +2,7 @@
 
 This development build does **not** yet meet the product brief's complete Definition of Done. No release tag should be created until these gates are met.
 
-- Load in a host with SDK 1.22.0+, then observe all real notch, island and camera-island surfaces. The public stable Playground download tested here refuses this SDK requirement.
+- Host loading is verified for Callora 0.1.1 in Droppy 16.2.1-nightly.20261101 with SDK 1.21.0. Observe all real notch, island and camera-island surfaces next. The public stable Playground 1.0.29 remains too old.
 - Validate at least one actual calling application: incoming/active/ended transitions, correct window identity, detach, drag, resize, dock, close without hang-up, end-call cleanup. The controlled local-window test does not satisfy this gate.
 - Add app/version/locale-specific detection fixtures and live-call evidence. All automatic providers remain experimental. Title and device-use false positives are already rejected by unit tests.
 - Test permission revocation, app crash, source replacement/minimization, sleep/wake, full-screen Spaces, multiple physical displays/scales, keyboard/VoiceOver, Reduce Motion and Increased Contrast.

@@ -1,13 +1,13 @@
 {
   "id": "callora",
   "name": "Callora",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "summary": "Your call window, in the notch and anywhere on your Mac.",
   "description": "Callora presents a user-selected call window in Droppy and in a native floating panel. Experimental opt-in call detection uses accessible call controls. Closing a preview never ends a call.",
   "category": "Productivity",
   "kit": {
     "abi": 1,
-    "minAPI": "1.22.0"
+    "minAPI": "1.21.0"
   },
   "minAppVersion": "15.3.0",
   "capabilities": [

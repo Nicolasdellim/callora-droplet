@@ -9,13 +9,8 @@ struct CalloraWidget: View {
     @State private var detaching = false
     var body: some View {
         VStack(alignment: .leading, spacing: DroppySpacing.sm) {
-            if let wrap = context.notchWrap {
-                ShelfWidgetNotchWrapRow(wrap) {
-                    ViewThatFits { title; Image(systemName: "rectangle.on.rectangle") }
-                } trailing: { settingsButton }
-            } else {
-                HStack { title; Spacer(minLength: 0); settingsButton }
-            }
+            // Keep the header below the host's camera clearance on API 1.21.
+            HStack { title; Spacer(minLength: 0); settingsButton }
             if let session = droplet.selected {
                 HStack {
                     Text(session.provider).font(.system(size: 12, weight: .semibold)).lineLimit(1)
@@ -60,18 +55,20 @@ struct CalloraWidget: View {
         .onAppear { droplet.setWidgetVisible(true, id: visibilityID) }
         .onDisappear { droplet.setWidgetVisible(false, id: visibilityID) }
     }
+    // SDK 1.21 wash sizes; the context helper was introduced in 1.22.
+    private var controlDiameter: CGFloat { context.isCompact ? 28 : 34 }
     private var title: some View {
         Label("Callora", systemImage: "rectangle.on.rectangle").font(.system(size: 12, weight: .semibold))
             .foregroundStyle(AdaptiveColors.notchSurfaceSecondaryText)
     }
     private var settingsButton: some View {
         Button(action: droplet.openSettings) { Image(systemName: "gearshape") }
-            .buttonStyle(DroppyWashCircleButtonStyle(diameter: context.washControlSize, tone: .neutral, usesAdaptiveForegrounds: context.usesAdaptiveForegrounds))
+            .buttonStyle(DroppyWashCircleButtonStyle(diameter: controlDiameter, tone: .neutral, usesAdaptiveForegrounds: context.usesAdaptiveForegrounds))
             .help("Choose source and settings").accessibilityLabel("Choose source and settings")
     }
     private func control(_ title: String, symbol: String, action: @escaping () -> Void) -> some View {
         Button(action: action) { Image(systemName: symbol) }
-            .buttonStyle(DroppyWashCircleButtonStyle(diameter: context.washControlSize, tone: .neutral, usesAdaptiveForegrounds: context.usesAdaptiveForegrounds))
+            .buttonStyle(DroppyWashCircleButtonStyle(diameter: controlDiameter, tone: .neutral, usesAdaptiveForegrounds: context.usesAdaptiveForegrounds))
             .help(title).accessibilityLabel(title)
     }
     private var controls: some View {

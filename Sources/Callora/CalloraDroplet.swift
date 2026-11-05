@@ -261,8 +261,7 @@ extension CalloraDroplet: ShelfWidgetProviding {
     public var widgetDescriptors: [ShelfWidgetDescriptor] {
         [ShelfWidgetDescriptor(id: "callora", title: "Callora", systemImage: "rectangle.on.rectangle",
             layoutTraits: ShelfWidgetLayoutTraits(preferredSoloWidth: 420, preferredPairedWidth: 240,
-                contentHeight: .fixed(selected == nil ? 156 : 310),
-                notchWrap: ShelfWidgetNotchWrapTraits(headerHeight: 34, minimumBandWidth: 64)))]
+                contentHeight: .fixed(selected == nil ? 156 : 310)))]
     }
     public func makeWidgetView(_ id: ShelfWidgetID, context: ShelfWidgetContext) -> AnyView {
         AnyView(CalloraWidget(droplet: self, context: context))

@@ -5,25 +5,25 @@
   },
   "activity" : [
     {
-      "at" : "2026-11-05T19:00:23Z",
+      "at" : "2026-11-05T19:10:25Z",
       "detail" : "register \"detach-dock\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:00:23Z",
+      "at" : "2026-11-05T19:10:25Z",
       "detail" : "register \"toggle-preview\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:00:23Z",
+      "at" : "2026-11-05T19:10:25Z",
       "detail" : "register \"open-source\"",
       "refused" : false,
       "service" : "shortcuts"
     },
     {
-      "at" : "2026-11-05T19:00:23Z",
+      "at" : "2026-11-05T19:10:25Z",
       "detail" : "register \"switch-call\"",
       "refused" : false,
       "service" : "shortcuts"
@@ -63,7 +63,7 @@
     "id" : "callora",
     "kit" : {
       "abi" : 1,
-      "minAPI" : "1.22.0"
+      "minAPI" : "1.21.0"
     },
     "minAppVersion" : "15.3.0",
     "name" : "Callora",
@@ -74,7 +74,7 @@
       "settings-pane"
     ],
     "typeID" : "callora",
-    "version" : "0.1.0"
+    "version" : "0.1.1"
   },
   "expandedSurfaces" : [
 
@@ -92,7 +92,7 @@
   },
   "log" : [
     {
-      "at" : "2026-11-05T19:00:23Z",
+      "at" : "2026-11-05T19:10:25Z",
       "level" : "info",
       "message" : "Callora activated; no capture starts until a source is chosen and its preview is visible"
     }
