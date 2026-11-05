@@ -1,0 +1,13 @@
+name: Feature request
+description: Propose an integration or improvement
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: User need and proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: Supported integration API or evidence

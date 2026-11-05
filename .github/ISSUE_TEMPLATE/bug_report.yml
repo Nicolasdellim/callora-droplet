@@ -1,0 +1,21 @@
+name: Bug report
+description: Report a reproducible Callora problem
+body:
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: macOS, Droppy and embedded API versions, app version, locale and displays.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps, expected behavior and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted evidence
+      description: Do not include call frames, participant details, credentials or private window titles.

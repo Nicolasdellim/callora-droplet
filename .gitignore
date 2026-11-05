@@ -1,0 +1,11 @@
+.build/
+.swiftpm/
+.DS_Store
+shots/
+
+# Machine-local SDK configuration
+AGENTS.md
+CLAUDE.md
+.mcp.json
+.cursor/
+.droppykit/

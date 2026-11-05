@@ -1,0 +1,43 @@
+{
+  "id": "callora",
+  "name": "Callora",
+  "version": "0.1.0",
+  "summary": "Your call window, in the notch and anywhere on your Mac.",
+  "description": "Callora presents a user-selected call window in Droppy and in a native floating panel. Experimental opt-in call detection uses accessible call controls. Closing a preview never ends a call.",
+  "category": "Productivity",
+  "kit": {
+    "abi": 1,
+    "minAPI": "1.22.0"
+  },
+  "minAppVersion": "15.3.0",
+  "capabilities": [
+    "shelf-read",
+    "shelf-write",
+    "global-shortcuts",
+    "accessibility",
+    "screen-capture"
+  ],
+  "surfaces": [
+    "shelf-widget",
+    "live-activity",
+    "settings-pane"
+  ],
+  "icon": "Callora.icon",
+  "creator": {
+    "name": "Nicolasdellim",
+    "kind": "community",
+    "url": "https://github.com/Nicolasdellim",
+    "avatar": "Creator.png"
+  },
+  "source": {
+    "repository": "https://github.com/Nicolasdellim/callora-droplet",
+    "license": "MIT"
+  },
+  "screenshots": [],
+  "keywords": [
+    "call",
+    "video",
+    "floating",
+    "picture-in-picture"
+  ]
+}

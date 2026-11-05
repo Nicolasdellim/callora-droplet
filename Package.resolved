@@ -1,0 +1,15 @@
+{
+  "originHash" : "065ccf9d9a89a027bd2c47888abe726d699202f390c2a598df688690905ef940",
+  "pins" : [
+    {
+      "identity" : "droppykit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab.com/droppyformac1/droppykit.git",
+      "state" : {
+        "revision" : "c417d8a54cc45fb798b06b8a5b88dfa4761f5938",
+        "version" : "1.22.0"
+      }
+    }
+  ],
+  "version" : 3
+}

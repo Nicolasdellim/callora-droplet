@@ -1,0 +1,32 @@
+name: Build and validate
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Toolchain
+        run: swift --version
+      - name: Fetch official SDK tools
+        run: git clone --depth 1 --branch v1.22.0 https://gitlab.com/droppyformac1/droppykit.git "$RUNNER_TEMP/droppykit"
+      - name: Unit and native panel tests
+        run: swift test
+      - name: Build universal droplet
+        run: '"$RUNNER_TEMP/droppykit/Scripts/droppykit" build'
+      - name: Validate development layout and linkage
+        run: '"$RUNNER_TEMP/droppykit/Scripts/droppykit" validate --no-submission'
+      - name: Render actual surfaces
+        run: '"$RUNNER_TEMP/droppykit/Scripts/droppykit" run -- --shots ./shots --report ./shots/report.json'
+      - name: Check harness verdict
+        run: python3 -c 'import json; r=json.load(open("shots/report.json")); assert not r["problems"]; assert r["activation"]["error"] is None'
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: validation-and-development-bundle
+          path: |
+            shots/
+            .build/Callora.droplet/
